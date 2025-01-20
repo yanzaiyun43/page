@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>.nomedia</title>
+    <title>身高计算器</title>
 </head>
 <style>
     #box{
@@ -26,24 +26,45 @@
       line-height:1.5;
       font-size:12px;
       }
+    .box2{
+      display:flex;
+      justify-content: center;
+      margin:25px auto;
+      padding:15px;
+      line-height:1.5;
+      font-size:12px;
+      }
 </style>
+<script>
+    function dj(){
+       alert();
+    }
+      function tt(){
+      let hu=document.getElementById("txxt").value;
+      alert("你的身高是:"+hu+"厘米");
+      }
+</script>
 
 <body>
     <div id="box">
+
         <img class="img" src="http://photo.chaoxing.com/p/333763142_80?flag=1&psize=100_100c&ext=jpg&t=" />
         <hr />
     </div>
-    <div id="text">
-        <p>工程创建成功！</p>
-        <p>工程创建成功！</p>
-        <p>工程创建成功！</p>
-        <p>工程创建成功！</p>
-        <p>工程创建成功！</p>
+    <div class="box2">
+
+
+        <input id="txxt" type="number" placeholder="请输入你的身高 单位(厘米)" />
+        <button onclick="tt()">
+            计算我的身高
+        </button>
     </div>
     <div id="box">
         <p>我的图片</p>
         <a href="http://photo.chaoxing.com/p/333763142_80?flag=1&psize=100_100c&ext=jpg&t=">图片链接</a>
     </div>
+
+
 </body>
 
 </html>
