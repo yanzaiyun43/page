@@ -73,7 +73,7 @@ async function loadNewImage() {
     showLoader()
     
     try {
-        const apiUrl = `https://www.dmoe.cc/random.php?t=${Date.now()}`
+        const apiUrl = `http://shanhe.kim/api/tu/anime.php?t=${Date.now()}`
         const response = await fetch(apiUrl)
         if (!response.ok) throw new Error(`HTTP ${response.status}`)
         
