@@ -96,12 +96,16 @@ async function loadImage(url) {
     return new Promise((resolve, reject) => {
         const img = new Image()
         img.onload = () => {
+            console.log('图片加载成功');
             dom.image.src = url
             dom.image.classList.add('loaded')
             state.currentImage = url
             resolve()
         }
-        img.onerror = reject
+        img.onerror = () => {
+            console.error('图片加载失败');
+            reject()
+        }
         img.src = url
     })
 }
