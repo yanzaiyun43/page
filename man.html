@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>动漫壁纸</title>
+</head>
+<body>
+    <div class="container">
+        <div class="image-wrapper">
+            <div class="loader"></div>
+            < img id="anime-image" alt="动漫图片" crossorigin="anonymous">
+        </div>
+        
+        <div class="button-group">
+            <button class="action-btn" id="history-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2a10 10 0 1 0 10 10M12 6v6l4 2"/>
+                </svg>
+                历史记录
+                <div class="history-menu" id="history-list"></div>
+            </button>
+            
+            <button class="action-btn" onclick="downloadImage()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                下载
+            </button>
+
+            <button class="action-btn" onclick="loadNewImage()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M23 4v6h-6M1 20v-6h6"/>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                </svg>
+                换图
+            </button>
+        </div>
+    </div>
+
+<script> </script>
+</body>
+</html>
