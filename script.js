@@ -8,5 +8,5 @@ function tt(){
         // 为按钮添加点击事件监听器
         button.addEventListener('click', function() {
             // 跳转到 man.html 页面
-            window.location.href = 'man.html';
+            window.location.href = 'comic.html';
         });
