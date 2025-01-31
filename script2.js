@@ -18,9 +18,9 @@
       const subtitle = document.querySelector('.subtitle');
       
       try {
-        // 修改标题和副标题
-        title.textContent = '你被骗了';
-        subtitle.textContent = '正在播放:Never gonna give you up🎶';
+        //清空标题
+        title.textContent = '';
+        subtitle.textContent = '';
 
         // 显示加载状态
         btnGroup.style.opacity = '0.5';
@@ -36,6 +36,13 @@
 
         // 自动播放视频
         await video.play();
+        //延时3秒
+
+        await new Promise(resolve =>           setTimeout(resolve, 2000));
+
+        // 修改标题和副标题
+        title.textContent = '你被骗了';
+        subtitle.textContent = '正在播放:Never             gonna give you up🎶';
         
       } catch (error) {
         console.log('视频播放错误:', error);
