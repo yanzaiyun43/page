@@ -6,7 +6,6 @@
     // 未成年按钮
     document.getElementById('btn1').addEventListener('click', () => {
       alert('你还小，不适合看这些\n请离开！');
-      document.getElementById('modal').style.display = 'none';
     });
 
     // 已成年按钮
