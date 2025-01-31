@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>动漫壁纸展示</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4f4;
+      -webkit-tap-highlight-color: transparent; /* 去除移动端点击高亮 */
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    #wallpapers {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wallpaper-card {
+      width: 100%;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      border-radius: 8px;
+      cursor: pointer;
+      outline: none;
+      transition: transform 0.3s ease;
+    }
+
+    .wallpaper-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .wallpaper-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .wallpaper-card .title {
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+    }
+
+    /* 放大图片的样式 */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-content {
+      position: relative;
+      margin: 10% auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 900px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: #fff;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      background-color: #000; /* 黑色背景 */
+      border-radius: 50%; /* 圆角 */
+      width: 40px; /* 按钮大小 */
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal img {
+      width: 100%;
+      height: auto;
+      display: block;
+      cursor: pointer;
+    }
+
+    .download-button {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* 禁用焦点样式 */
+    .wallpaper-card:focus,
+    .modal:focus,
+    .close:focus,
+    img:focus {
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>动漫壁纸</h1>
+    <div id="wallpapers"></div>
+    <div id="message" style="text-align: center; margin-top: 20px;"></div>
+  </div>
+
+  <!-- 放大图片的模态框 -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <img id="modal-image" src="" alt="Wallpaper">
+      <div id="downloadBtn" class="download-button">下载</div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const apiUrl = 'https://applet.dimtown.com/api/walls?sort=updatedAt:desc&pagination%5Bpage%5D=';
+      const wallpapersContainer = document.getElementById('wallpapers');
+      const modal = document.getElementById('myModal');
+      const modalImage = document.getElementById('modal-image');
+      const closeBtn = document.querySelector('.close');
+      const downloadBtn = document.getElementById('downloadBtn');
+      const message = document.getElementById('message');
+      let currentPage = 1;
+      let hasMorePages = true;
+
+      function fetchWallpapers(page) {
+        setTimeout(() => {
+          fetch(`${apiUrl}${page}`)
+            .then(response => response.json())
+            .then(data => {
+              if (data.data.length === 0) {
+                hasMorePages = false;
+                message.textContent = '已经到底了';
+              } else {
+                message.textContent = '';
+                data.data.forEach(item => {
+                  const { id, attributes } = item;
+                  const { title, image, cover } = attributes;
+                  const card = document.createElement('div');
+                  card.className = 'wallpaper-card';
+
+                  const img = document.createElement('img');
+                  img.onload = () => {
+                    img.style.opacity = 1; // 确保图片加载完成后显示
+                  };
+                  img.onerror = () => {
+                    img.src = cover; // 如果image加载失败，尝试cover字段
+                  };
+                  img.src = image;
+                  img.alt = title;
+
+                  const titleDiv = document.createElement('div');
+                  titleDiv.className = 'title';
+                  titleDiv.textContent = title;
+
+                  card.appendChild(img);
+                  card.appendChild(titleDiv);
+                  card.addEventListener('click', () => {
+                    modal.style.display = 'block';
+                    modalImage.src = image;
+                    downloadBtn.style.display = 'block';
+                  });
+                  wallpapersContainer.appendChild(card);
+                });
+              }
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error);
+            });
+        }, 1000); // 添加1秒延时
+      }
+
+      fetchWallpapers(currentPage);
+
+      closeBtn.onclick = () => {
+        modal.style.display = 'none';
+        downloadBtn.style.display = 'none';
+      };
+
+      modalImage.onclick = () => {
+        modal.style.display = 'none';
+        downloadBtn.style.display = 'none';
+      };
+
+      window.onclick = (event) => {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+          downloadBtn.style.display = 'none';
+        }
+      };
+
+      downloadBtn.onclick = () => {
+        const imageUrl = modalImage.src;
+        const link = document.createElement('a');
+        link.href = imageUrl;
+        link.download = 'anime_wallpaper';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        modal.style.display = 'none';
+        downloadBtn.style.display = 'none';
+      };
+
+      window.onscroll = () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasMorePages) {
+          currentPage++;
+          fetchWallpapers(currentPage);
+        }
+      };
+    });
+  </script>
+</body>
+</html>
