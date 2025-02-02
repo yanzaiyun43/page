@@ -9,7 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let hasMorePages = true;
 
             function fetchWallpapers(page) {
-                fetch(`${apiUrl}${page}&size=30`)
+                fetch(`${apiUrl}${page}&size=30`,{
+                            mode:'no-cors'
+                })
                     .then(response => response.json())
                     .then(data => {
                         if (data.length === 0) {
